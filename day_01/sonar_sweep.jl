@@ -11,8 +11,8 @@ INPUT_FP = joinpath(dirname(Base.source_path()), "input.txt")
 
 
 function read_input(fp::String)::Vector{Int16}
-   data = readdlm(fp, '\t', Int16, '\n')
-   vec(data)
+    data = readdlm(fp, '\t', Int16, '\n')
+    vec(data)
 end
 
 
@@ -56,7 +56,7 @@ end
 function main()
 
     data = read_input(INPUT_FP)
-    
+
     val = calc_step_one(data)
 
     t = @benchmark calc_step_one($data)
