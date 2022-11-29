@@ -24,9 +24,9 @@ def execute(func: Callable, *args) -> tuple[int, float]:
     return func(*args), t_avg
 
 
-def calc(data: list[int]) -> int:
-    prev = data[0]
+def calc_step_one(data: list[int]) -> int:
     inc = 0
+    prev = data[0]
     for e in data[1:]:
         if e > prev:
             inc += 1
@@ -34,12 +34,27 @@ def calc(data: list[int]) -> int:
     return inc
 
 
+def calc_step_two(data: list[int]) -> int:
+    inc = 0
+    prev = sum(data[:3])
+    for i in range(1, len(data) - 2):
+        new = sum(data[i : i + 3])
+        if new > prev:
+            inc += 1
+        prev = new
+    return inc
+
+
 def main() -> None:
     data = read_input(INPUT_FP)
 
-    val, t_avg = execute(calc, data)
+    sol, t_avg = execute(calc_step_one, data)
 
-    print_solution(val, t_avg)
+    print_solution(sol, t_avg)
+
+    sol, t_avg = execute(calc_step_two, data)
+
+    print_solution(sol, t_avg)
 
 
 if __name__ == "__main__":

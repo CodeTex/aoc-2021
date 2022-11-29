@@ -27,7 +27,15 @@ func read_input(path string) ([]int16, error) {
 	return lines, scanner.Err()
 }
 
-func calc(data []int16) int {
+func arr_sum(v []int16) int {
+	arrSum := 0
+	for _, e := range v {
+		arrSum = arrSum + int(e)
+	}
+	return arrSum
+}
+
+func calc_step_one(data []int16) int {
 	prev := data[0]
 	inc := 0
 	for _, e := range data[1:] {
@@ -39,6 +47,22 @@ func calc(data []int16) int {
 	return inc
 }
 
+func calc_step_two(data []int16) int {
+	prev := arr_sum(data[:3])
+	inc := 0
+	for i := range data[1:] {
+		if i >= len(data)-2 {
+			break
+		}
+		new := arr_sum((data[i : i+3]))
+		if new > prev {
+			inc++
+		}
+		prev = new
+	}
+	return inc
+}
+
 func main() {
 	input_fp := "day_01/input.txt"
 	data, err := read_input(input_fp)
@@ -46,6 +70,8 @@ func main() {
 		panic(err)
 	}
 
-	sol := calc(data)
-	fmt.Println("\nSolution:\t", sol)
+	sol1 := calc_step_one(data)
+	fmt.Println("\nSolution:\t", sol1)
+	sol2 := calc_step_two(data)
+	fmt.Println("\nSolution:\t", sol2)
 }
